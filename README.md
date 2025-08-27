@@ -1,16 +1,16 @@
-# VKing Casino API Documentation
+# 🎰 VKing Casino API Documentation
 
-## Overview
+## 📋 Overview
 This document describes the API endpoints for integrating with VKing Casino games.
 
-## Base URL
+## 🌐 Base URL
 ```
 https://arabianbet.net/vking-casino/
 ```
 
-## Endpoints
+## 🚀 Endpoints
 
-### 1. Get All Games List
+### 1️⃣ Get All Games List
 
 **Endpoint:** `GET /get_game_list`
 
@@ -24,11 +24,11 @@ https://arabianbet.net/vking-casino/
 - `gameCode` - Unique identifier for the game
 - `tableCode` - Unique identifier for the game table
 
-**Note:** Extract the `gameCode` and `tableCode` parameters from this response. These values will be used in the Get Game URL request.
+> **Note:** Extract the `gameCode` and `tableCode` parameters from this response. These values will be used in the Get Game URL request.
 
 ---
 
-### 2. Get Game URL
+### 2️⃣ Get Game URL
 
 **Endpoint:** `POST /login`
 
@@ -59,27 +59,59 @@ https://arabianbet.net/vking-casino/
 }
 ```
 
-**Important:** From the response, you only need to extract the `gameURL` parameter. This URL will redirect the user to the game lobby where they can start playing.
+> **Important:** From the response, you only need to extract the `gameURL` parameter. This URL will redirect the user to the game lobby where they can start playing.
 
 ---
 
-## Integration Flow
+## 🔄 Integration Flow
 
-1. **Step 1:** Call `GET /get_game_list` to retrieve available games
-2. **Step 2:** Extract `gameCode` and `tableCode` from the response
-3. **Step 3:** Call `POST /login` with the extracted codes to get the game URL
-4. **Step 4:** Extract the `gameURL` from the response and redirect the user to that URL
+### Step 1: Get Games List
+Call `GET /get_game_list` to retrieve available games
 
-## Error Handling
+### Step 2: Extract Codes
+Extract `gameCode` and `tableCode` from the response
+
+### Step 3: Get Game URL
+Call `POST /login` with the extracted codes to get the game URL
+
+### Step 4: Redirect User
+Extract the `gameURL` from the response and redirect the user to that URL
+
+---
+
+## ⚠️ Error Handling
 
 The API returns appropriate HTTP status codes:
-- `200` - Success
-- `400` - Bad Request (missing or invalid parameters)
-- `401` - Unauthorized
-- `500` - Internal Server Error
 
-## Notes
+| Status Code | Description |
+|-------------|-------------|
+| `200` | Success |
+| `400` | Bad Request (missing or invalid parameters) |
+| `401` | Unauthorized |
+| `500` | Internal Server Error |
+
+---
+
+## 📝 Notes
 
 - All requests should include proper authentication headers as required by your system
 - The `gameCode` and `tableCode` are dynamic values that change based on the game selection
 - Ensure proper error handling for cases where games are unavailable or parameters are invalid
+
+---
+
+## 🔗 Quick Reference
+
+| Action | Method | Endpoint | Purpose |
+|--------|--------|----------|---------|
+| Get Games | `GET` | `/get_game_list` | Retrieve available games |
+| Get Game URL | `POST` | `/login` | Get game lobby URL |
+
+---
+
+## 📚 Additional Resources
+
+For more information about integrating with VKing Casino, please refer to:
+- [VKing Casino Developer Portal](https://developer.vkingcasino.com)
+- [API Rate Limits](https://developer.vkingcasino.com/rate-limits)
+- [Authentication Guide](https://developer.vkingcasino.com/auth)
