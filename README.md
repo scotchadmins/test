@@ -1,266 +1,85 @@
-# 📋 uploadVisitingcardImage API Documentation
+# VKing Casino API Documentation
 
-## 🔧 **Operation Details**
+## Overview
+This document describes the API endpoints for integrating with VKing Casino games.
 
-| Property | Value |
-|----------|-------|
-| **Operation Name** | `uploadVisitingcardImage` |
-| **HTTP Method** | `POST` |
-| **Endpoint** | `/webservice.php` |
-| **Authentication** | Required (session-based) |
-| **Content Type** | `application/x-www-form-urlencoded` |
-
----
-
-## 📝 **API Call Format**
-
-```http
-POST /webservice.php
-Content-Type: application/x-www-form-urlencoded
-
-operation=uploadVisitingcardImage&sessionName=YOUR_SESSION_ID&recordId=75x4604387&fieldName=visitingcard_tks_dp_image&imageData=BASE64_IMAGE_DATA&fileName=image.png
+## Base URL
+```
+https://arabianbet.net/vking-casino/
 ```
 
+## Endpoints
+
+### 1. Get All Games List
+
+**Endpoint:** `GET /get_game_list`
+
+**Description:** Retrieves a list of all available games from VKing Casino.
+
+**URL:** `https://arabianbet.net/vking-casino/get_game_list`
+
+**Request Type:** `GET`
+
+**Response:** The response contains game information including:
+- `gameCode` - Unique identifier for the game
+- `tableCode` - Unique identifier for the game table
+
+**Note:** Extract the `gameCode` and `tableCode` parameters from this response. These values will be used in the Get Game URL request.
+
 ---
 
-## 🔑 **Required Parameters**
+### 2. Get Game URL
 
-| Parameter | Type | Required | Description | Example |
-|-----------|------|----------|-------------|---------|
-| `operation` | string | ✅ | Operation name | `uploadVisitingcardImage` |
-| `sessionName` | string | ✅ | Valid Vtiger session ID | `198820176899d7669c7bf` |
-| `recordId` | string | ✅ | Visitingcard record ID | `75x4604387` |
-| `fieldName` | string | ✅ | Image field name | `visitingcard_tks_dp_image` |
-| `imageData` | string | ✅ | Base64 encoded image | `iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==` |
-| `fileName` | string | ✅ | Original filename | `profile_photo.png` |
+**Endpoint:** `POST /login`
 
-**💡 Quick Tip:** To convert an image file to base64, use: `$imageData = base64_encode(file_get_contents($imagePath));`
+**Description:** Authenticates the user and returns the game URL for playing a specific game.
 
----
+**URL:** `https://arabianbet.net/vking-casino/login`
 
-## 🖼️ **Available Image Fields**
+**Request Type:** `POST`
 
-### **1. Profile/DP Image**
+**Required Parameters:**
+- `tpGameId` - The game code obtained from the Get All Games List response
+- `tpGameTableId` - The table code obtained from the Get All Games List response
+
+**Example Request Body:**
 ```json
 {
-  "fieldName": "visitingcard_tks_dp_image",
-  "description": "Profile/Display Picture Image",
-  "purpose": "User profile photo or display picture",
-  "recommended_size": "200x200px to 500x500px",
-  "supported_formats": ["JPG", "PNG", "GIF", "WEBP"]
+    "tpGameId": "GAME_CODE_FROM_RESPONSE",
+    "tpGameTableId": "TABLE_CODE_FROM_RESPONSE"
 }
 ```
 
-### **2. Company Logo**
+**Response:**
 ```json
 {
-  "fieldName": "visitingcard_tks_company_logo",
-  "description": "Company/Organization Logo",
-  "purpose": "Business branding and identification",
-  "recommended_size": "300x100px to 600x200px",
-  "supported_formats": ["JPG", "PNG", "GIF", "WEBP"]
+    "status": "0",
+    "errorMessage": "",
+    "gameURL": "https://staging.supernowa.net/lobby?Token=B027192C-2908-46B8-ABE4-6FBED0A52BEC&Code=TP"
 }
 ```
 
-### **3. QR Code**
-```json
-{
-  "fieldName": "visitingcard_tks_qr_code",
-  "description": "QR Code Image",
-  "purpose": "Quick access to contact information",
-  "recommended_size": "200x200px to 400x400px",
-  "supported_formats": ["PNG", "JPG"]
-}
-```
+**Important:** From the response, you only need to extract the `gameURL` parameter. This URL will redirect the user to the game lobby where they can start playing.
 
 ---
 
-## 📱 **CURL Examples**
+## Integration Flow
 
-### **1. Upload Profile Image**
-```bash
-curl -X POST http://localhost/fancymobilenumber/webservice.php \
-  -d 'operation=uploadVisitingcardImage' \
-  -d 'sessionName=198820176899d7669c7bf' \
-  -d 'recordId=75x4604387' \
-  -d 'fieldName=visitingcard_tks_dp_image' \
-  -d 'imageData=iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg==' \
-  -d 'fileName=profile_photo.png'
-```
+1. **Step 1:** Call `GET /get_game_list` to retrieve available games
+2. **Step 2:** Extract `gameCode` and `tableCode` from the response
+3. **Step 3:** Call `POST /login` with the extracted codes to get the game URL
+4. **Step 4:** Extract the `gameURL` from the response and redirect the user to that URL
 
-### **2. Upload Company Logo**
-```bash
-curl -X POST http://localhost/fancymobilenumber/webservice.php \
-  -d 'operation=uploadVisitingcardImage' \
-  -d 'sessionName=198820176899d7669c7bf' \
-  -d 'recordId=75x4604387' \
-  -d 'fieldName=visitingcard_tks_company_logo' \
-  -d 'imageData=BASE64_ENCODED_LOGO_DATA' \
-  -d 'fileName=company_logo.png'
-```
+## Error Handling
 
-### **3. Upload QR Code**
-```bash
-curl -X POST http://localhost/fancymobilenumber/webservice.php \
-  -d 'operation=uploadVisitingcardImage' \
-  -d 'sessionName=198820176899d7669c7bf' \
-  -d 'recordId=75x4604387' \
-  -d 'fieldName=visitingcard_tks_qr_code' \
-  -d 'imageData=BASE64_ENCODED_QR_DATA' \
-  -d 'fileName=qr_code.png'
-```
+The API returns appropriate HTTP status codes:
+- `200` - Success
+- `400` - Bad Request (missing or invalid parameters)
+- `401` - Unauthorized
+- `500` - Internal Server Error
 
----
+## Notes
 
-## 🔐 **Authentication (Login First)**
-
-### **Step 1: Login to Get Session**
-```bash
-curl -X POST http://localhost/fancymobilenumber/webservice.php \
-  -d 'operation=login' \
-  -d 'username=admin' \
-  -d 'accessKey=YOUR_ACCESS_KEY'
-```
-
-### **Step 2: Use Session ID**
-```json
-{
-  "success": true,
-  "result": {
-    "sessionName": "198820176899d7669c7bf",
-    "userId": "1",
-    "user_name": "admin"
-  }
-}
-```
-
----
-
-## 📊 **Response Format**
-
-### **Success Response**
-```json
-{
-  "success": true,
-  "result": {
-    "success": true,
-    "record_id": "75x4604387",
-    "field_name": "visitingcard_tks_dp_image",
-    "filename": "4604387_dp_image.png",
-    "file_path": "storage/2024/December/week4/4604387_dp_image.png",
-    "attachment_id": "12345",
-    "image_info": {
-      "width": 200,
-      "height": 200,
-      "type": 2,
-      "mime": "image/png",
-      "size": 12345
-    },
-    "cleanup_stats": {
-      "existing_deleted": 1,
-      "non_standard_removed": 0
-    },
-    "message": "Image uploaded successfully with field-specific cleanup and standardized naming"
-  }
-}
-```
-
-### **Error Response**
-```json
-{
-  "success": false,
-  "error": {
-    "code": "INVALID_ID",
-    "message": "Invalid record ID format"
-  }
-}
-```
-
----
-
-## ⚠️ **Important Notes**
-
-### **Field-Specific Behavior**
-- **Each field is independent** - uploading to one field doesn't affect others
-- **Old images are automatically deleted** when uploading to the same field
-- **Filenames are standardized** as `{recordId}_{fieldPrefix}.{extension}`
-
-### **Image Requirements**
-- **Format**: JPG, PNG, GIF, WEBP supported
-- **Size**: Recommended max 2MB per image
-- **Dimensions**: Varies by field type (see field details above)
-- **Encoding**: Must be valid base64
-
-### **Database Updates**
-- **Attachment records** are created in `vtiger_attachments`
-- **Field values** are updated in `vtiger_visitingcard`
-- **Relationships** are maintained in `vtiger_seattachmentsrel`
-
----
-
-## 🧪 **Testing Examples**
-
-### **1. Test with 1x1 Pixel PNG**
-```bash
-# Base64 for 1x1 transparent PNG
-imageData="iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8/5+hHgAHggJ/PchI7wAAAABJRU5ErkJggg=="
-```
-
-### **2. Test with Sample JPG**
-```bash
-# Convert your image to base64
-base64 -i your_image.jpg | tr -d '\n'
-```
-
-### **3. Verify Upload**
-```bash
-# Check if file exists
-ls -la storage/2024/December/week4/4604387_dp_image.png
-
-# Check database
-mysql -u root -p -e "SELECT * FROM vtiger_visitingcard WHERE visitingcardid = 4604387;"
-```
-
----
-
-## 🔍 **Troubleshooting**
-
-### **Common Errors**
-
-| Error Code | Description | Solution |
-|------------|-------------|----------|
-| `INVALID_ID` | Record ID format incorrect | Use format: `75x4604387` |
-| `RECORDNOTFOUND` | Visitingcard doesn't exist | Verify record ID in database |
-| `INVALID_PARAMETER` | Missing required parameter | Check all required fields |
-| `INVALID_PARAMETER` | Invalid image data | Ensure valid base64 encoding |
-| `INTERNAL_ERROR` | Database/file system error | Check permissions and storage |
-
-### **Debug Steps**
-1. **Verify session is valid** - Check login response
-2. **Confirm record exists** - Query `vtiger_visitingcard` table
-3. **Check image format** - Validate base64 and image content
-4. **Verify storage permissions** - Ensure write access to storage directory
-5. **Check database connection** - Confirm Vtiger database is accessible
-
----
-
-## 📚 **Related Documentation**
-
-- [Vtiger Webservice API Reference](https://wiki.vtiger.com/vtiger6/index.php/Webservice_API_Reference)
-- [Image Upload Best Practices](https://wiki.vtiger.com/vtiger6/index.php/File_Upload)
-- [Session Management](https://wiki.vtiger.com/vtiger6/index.php/Session_Management)
-
----
-
-## 📞 **Support**
-
-For technical support or questions about this API:
-- **Email**: support@yourcompany.com
-- **Documentation**: https://docs.yourcompany.com
-- **API Status**: https://status.yourcompany.com
-
----
-
-*Last Updated: December 2024*  
-*Version: 1.0*  
-*API Version: vtiger_6.x*
+- All requests should include proper authentication headers as required by your system
+- The `gameCode` and `tableCode` are dynamic values that change based on the game selection
+- Ensure proper error handling for cases where games are unavailable or parameters are invalid
