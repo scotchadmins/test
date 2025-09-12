@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides comprehensive documentation for all VoIP call providers integrated in the Be-Broker CRM system. The system supports multiple VoIP providers simultaneously, allowing different users to configure and use different calling services based on their preferences.
+This document provides comprehensive documentation for all VoIP call providers integrated in the CRM system. The system supports multiple VoIP providers simultaneously, allowing different users to configure and use different calling services based on their preferences.
 
 ## Table of Contents
 
@@ -106,7 +106,7 @@ Identical to OdriCom implementation with same API structure.
 
 #### API Endpoint
 ```
-https://voip.bebrokers.me/API/dialup.php?user={username}&pass={password}&org={orgname}&dial1={number}&dial2={agent_no}&Response=Yes&RFormat=json
+https://voip.example.com/API/dialup.php?user={username}&pass={password}&org={orgname}&dial1={number}&dial2={agent_no}&Response=Yes&RFormat=json
 ```
 
 #### Implementation Details
@@ -237,10 +237,10 @@ https://www.omega-telecom.net/api/json/calls/make/?auth_username={username}&auth
 - Gateway configuration
 - Integration with Contacts, Leads, and Accounts
 
-#### Database Tables
-- `vtiger_pbxmanager`: Main call records
-- `vtiger_pbxmanager_gateway`: Gateway configurations
-- `vtiger_pbxmanager_phonelookup`: Phone number mappings
+#### Core Features
+- Main call records management
+- Gateway configurations
+- Phone number mappings
 
 ## Configuration Guide
 
@@ -342,8 +342,8 @@ Enable debug logging by adding debug statements to provider action files:
 ### Log Files
 
 Check the following log files:
-- PHP error logs
-- Vtiger logs
+- Application logs
+- CRM logs
 - Web server logs
 - Provider-specific logs
 
@@ -393,4 +393,4 @@ Check the following log files:
 - Implement new provider features
 - Maintain compatibility with CRM updates
 
-This documentation provides a comprehensive guide for managing all VoIP providers integrated in the Be-Broker CRM system. For additional support or specific provider questions, refer to the individual provider documentation or contact the system administrator.
+This documentation provides a comprehensive guide for managing all VoIP providers integrated in the CRM system. For additional support or specific provider questions, refer to the individual provider documentation or contact the system administrator.
